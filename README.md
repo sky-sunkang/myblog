@@ -1,6 +1,7 @@
 # 个人博客网站
   可前往www.sunkang.xyz查看
 >>>  前端部分
+      使用vue的脚手架vue-cli搭建的开发环境
       vue + vuex + vue-router + iview + axios + vue-awesome-swiper + jquery
 
 >>>  后台部分
