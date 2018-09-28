@@ -14,7 +14,7 @@
       使用了springboot，主要是负责需要登录的部分内容
       直接下载代码，运行ServerApplication
 ##  内容部分 -- PublicCMS
-     [publiccms](http://www.sunkang.xyz:8080/publiccms/admin/)上发布内容， 用户名：test 密码：test
+     [内容发布](http://www.sunkang.xyz:8080/publiccms/admin)上发布内容， 用户名：test 密码：test
      使用了开源系统PublicCMS，负责发布新闻动态等内容
      使用接口的方式与前端集成，并未使用发布静态页面的方式
 
@@ -28,7 +28,7 @@
   部署容器
   tomcat8.5 + nginx
 
-  云服务器配置信息
+##  云服务器配置信息
     操作系统	CentOS 7.2 64位
     CPU	1 核
     内存	2 GB
