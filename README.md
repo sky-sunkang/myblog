@@ -14,9 +14,9 @@
       使用了springboot，主要是负责需要登录的部分内容
       直接下载代码，运行ServerApplication
 ##  内容部分 -- PublicCMS
-       [publiccms](http://www.sunkang.xyz:8080/publiccms/admin/)
-       使用了开源系统PublicCMS，负责发布新闻动态等内容
-       使用接口的方式与前端集成，并未使用发布静态页面的方式
+     [publiccms](http://www.sunkang.xyz:8080/publiccms/admin/)上发布内容， 用户名：test 密码：test
+     使用了开源系统PublicCMS，负责发布新闻动态等内容
+     使用接口的方式与前端集成，并未使用发布静态页面的方式
 
       安装方式（需要数据库，第一次登录需要初始化数据库）
       1.PublicCMS官网下载一键安装包
