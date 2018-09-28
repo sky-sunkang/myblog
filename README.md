@@ -8,7 +8,8 @@
          2.下载代码，并进入到项目中
          3.执行npm run dev
          4.打包npm run build 生成静态文件，发不到linux服务器上
-          由于服务器的带宽较小，尽量打包成多个文件（代码中有），形成异步加载，还有有些资源如iview可以通过cdn方式加载，减少vendor.js大小
+          由于服务器的带宽较小，尽量打包成多个文件（代码中有），形成异步加载
+          还有有些资源如iview可以通过cdn方式加载，减少vendor.js大小
 ##  后台部分
       使用了springboot，主要是负责需要登录的部分内容
       直接下载代码，运行ServerApplication
