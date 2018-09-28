@@ -8,7 +8,7 @@
       使用了springboot，主要是负责需要登录的部分内容\n
 \n
 >>>  内容部分\n
-       http://www.sunkang.xyz:8080/publiccms/admin/\n
+       www.sunkang.xyz:8080/publiccms/admin/\n
 \n
        使用了开源系统PublicCMS，负责发布新闻动态等内容\n
        使用接口的方式与前端集成，并未使用发布静态页面的方式\n
