@@ -56,22 +56,15 @@
               <a href="#">查看更多>></a>
             </div>
             <div class="technicalExchangeDiv">
-              <div class="technicalExchangeRow">
+              <div class="technicalExchangeRow" v-for="technicalExchange in technicalExchanges" :key="technicalExchange.id">
                 <div class="technicalExchangeTitle">
                   <div></div>
-                  <a href="javascript:downFile('upload/2018/09-13/09-48-5309591663577314.pdf','449703')">Java 11 已正式发布，你在使用 Java 的哪个版本？</a>
+                  <a href="javascript:downFile('upload/2018/09-13/09-48-5309591663577314.pdf','449703')">
+                    {{technicalExchange.title | lengthInterception(80)}}
+                  </a>
                 </div>
                 <div class="technicalExchangeDate">
-                  2018年09月13日
-                </div>
-              </div>
-              <div class="technicalExchangeRow">
-                <div class="technicalExchangeTitle">
-                  <div></div>
-                  <a href="javascript:downFile('upload/2018/09-13/09-48-5309591663577314.pdf','449703')">java11发布了，像阿里这样的大厂会如何选择？</a>
-                </div>
-                <div class="technicalExchangeDate">
-                  2018年09月13日
+                  {{technicalExchange.publishDate | formatDate('yyyy-MM-dd')}}
                 </div>
               </div>
             </div>
@@ -103,7 +96,8 @@ export default {
     return {
       theme1: 'light',
       banners: [], // [{title: '博客系统于2018-09-10正式开始搭建', path: '/static/images/0.jpg'}, {title: '我是第二张图', path: '/static/images/1.jpg'}, {title: '我是第三张图', path: '/static/images/2.jpg'}],
-      dynamics: [],
+      dynamics: [], // 技术资讯
+      technicalExchanges: [], // 技术交流
       swiperOption: {
         autoplay: {
           delay: 2000,
@@ -121,12 +115,13 @@ export default {
   },
   created () {
     // 初始化首页轮播图
-    this.$axios.get('/contentList?showParameters=false&categoryId=123&pageIndex=1&count=3')
+    this.$axios.get('/contentList?showParameters=false&categoryId=' + this.$store.state.dynamicNewsId + '&pageIndex=1&count=3')
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+        console.log(response)
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]
-          this.banners.push({title: obj.title, path: '//sunkang.xyz:8080/publiccms/webfile/' + obj.cover})
+          this.banners.push({title: obj.title, path: this.$store.state.cmsStaticDir + obj.cover})
         }
       })
       .catch(function (error) {
@@ -134,7 +129,7 @@ export default {
       })
 
     // 行业资讯
-    this.$axios.get('/contentList?showParameters=false&categoryId=124&pageIndex=1&count=4')
+    this.$axios.get('/contentList?showParameters=false&categoryId=' + this.$store.state.dynamicId + '&pageIndex=1&count=4')
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
@@ -146,11 +141,12 @@ export default {
         console.log(error)
       })
     //  技术交流
-    this.$axios.get('/contentList?showParameters=false&categoryId=125&pageIndex=1&count=3')
+    this.$axios.get('/contentList?showParameters=false&categoryId=' + this.$store.state.technicalExchangeId + '&pageIndex=1&count=3')
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
-          console.log(list[i])
+          var obj = list[i]
+          this.technicalExchanges.push({title: obj.title, publishDate: obj.publishDate})
         }
       })
       .catch(function (error) {

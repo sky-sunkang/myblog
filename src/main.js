@@ -33,3 +33,19 @@ new Vue({
   components: {App},
   template: '<App/>'
 })
+// 全局配置store
+// eslint-disable-next-line no-undef
+const store = new Vuex.Store({
+  state: {
+    cmsStaticDir: '//sunkang.xyz:8080/publiccms/webfile/',
+    dynamicNewsId: 123,
+    dynamicId: 124,
+    technicalExchangeId: 125
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  }
+})
+Vue.prototype.$store = store// 将store配置成vue的原型
