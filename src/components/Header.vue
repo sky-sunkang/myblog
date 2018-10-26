@@ -36,18 +36,22 @@
               </MenuItem>
               <MenuItem name="technicalExchange">
                 <Icon type="ios-bug"/>
-                技术资讯
+                技术交流
               </MenuItem>
               <MenuItem name="lifeExhibition">
                 <Icon type="md-film"/>
                 生活展览
+              </MenuItem>
+              <MenuItem name="systemMonitoring">
+                <Icon type="md-analytics" />
+                系统监控
               </MenuItem>
             </Menu>
           </div>
         </div>
       </div>
     </div>
-    <div style="height: 90px"></div>
+    <div style="height: 85px"></div>
   </div>
 </template>
 
@@ -99,7 +103,8 @@ export default {
   },
   methods: {
     toMenu (e) {
-      this.$router.push(e)
+      console.log(e)
+      this.$router.push({name: e})
     }
   },
   computed: {
@@ -120,6 +125,7 @@ export default {
     top: 0;
     width: 100%;
     z-index: 9999;
+    border-bottom: 1px solid #eee;
   }
 
   .header .ivu-menu-horizontal.ivu-menu-light:after {

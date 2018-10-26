@@ -4,6 +4,9 @@ const Index = () => import(/* webpackChunkName: "group-index" */ '../components/
 const IndustryDynamics = () => import(/* webpackChunkName: "group-IndustryDynamics" */ '../components/IndustryDynamics')
 const LifeExhibition = () => import(/* webpackChunkName: "group-LifeExhibition" */ '../components/LifeExhibition')
 const TechnicalExchange = () => import(/* webpackChunkName: "group-TechnicalExchange" */ '../components/TechnicalExchange')
+const SystemMonitoring = () => import(/* webpackChunkName: "group-SystemMonitoring" */ '../components/SystemMonitoring')
+const NewsDetails = () => import(/* webpackChunkName: "group-NewsDetails" */ '../components/NewsDetails')
+
 // eslint-disable-next-line no-undef
 export default new VueRouter({
   routes: [
@@ -30,6 +33,16 @@ export default new VueRouter({
       path: '/technicalExchange',
       name: 'technicalExchange',
       component: TechnicalExchange
+    },
+    {
+      path: '/systemMonitoring',
+      name: 'systemMonitoring',
+      component: SystemMonitoring
+    },
+    {
+      path: '/newsDetails/:id',
+      name: 'newsDetails',
+      component: NewsDetails
     }
   ]
 })

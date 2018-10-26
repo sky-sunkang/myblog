@@ -26,4 +26,7 @@ export default {
     color: #2c3e50;
     margin-top: 0;
   }
+  .ivu-message{
+    z-index: 9999;
+  }
 </style>
