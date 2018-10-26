@@ -7,7 +7,7 @@
       </div>
       <Divider />
       <Timeline>
-        <TimelineItem  color="black" v-for="industry in industrys" :key='industry.index'>
+        <TimelineItem  color="green" v-for="industry in industrys" :key='industry.index'>
           <p class="time">{{industry.publishDate | formatDate('yyyy年MM月dd日') }}</p>
           <img class="arrow" src="../../static/images/leftThree.png">
           <router-link :to="'newsDetails/'+industry.id">
@@ -33,7 +33,7 @@
             </div>
           </router-link>
         </TimelineItem>
-        <TimelineItem color="blue"><span  v-on:click="loadIndustr()">查看更多</span></TimelineItem>
+        <TimelineItem color="blue"><span class="loadIndustr" v-on:click="loadIndustr()">查看更多</span></TimelineItem>
       </Timeline>
     </div>
   </div>
@@ -227,6 +227,12 @@ export default {
   .industryClicks{
     float: right;
     margin-right: 30px;
+  }
+  .loadIndustr{
+    cursor: pointer;
+  }
+  .loadIndustr:hover{
+    color: #BF4D3B;
   }
   /*列表部分 end*/
 </style>

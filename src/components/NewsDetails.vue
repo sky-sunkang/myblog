@@ -62,7 +62,6 @@ export default {
     // 改变点击数
     this.$axios.get('/api/contentClick?id=' + this.$route.params.id)
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
-        console.log(response.data)
       })
       .catch(function (error) {
         console.log(error)

@@ -18,9 +18,16 @@
       <figure>
         <img v-lazy="'../../static/images/art.jpg'" alt="秋。。。相知" width="1000">
         <figcaption>
+          <strong>我的名片</strong>
+          <p>网名：sunkang | 孙康</p>
+          <p>职业：JAVA软件工程师</p>
+          <p>电话：13016488900</p>
+          <p>Email：sky_sunkang@163.com</p>
+        </figcaption>
+        <div class="figcaptionRight">
           <strong>渡人如渡己，渡己，亦是渡。</strong>
           当我们被误解时，会花很多时间去辩白。 但没有用，没人愿意听，大家习惯按自己的所闻、理解做出判别，每个人其实都很固执。与其努力且痛苦的试图扭转别人的评判，不如默默承受，给大家多一点时间和空间去了解。而我们省下辩解的功夫，去实现自身更久远的人生价值。其实，渡人如渡己，渡已，亦是渡人。
-        </figcaption>
+        </div>
       </figure>
     </div>
     <!--内容 begin-->
@@ -31,10 +38,12 @@
             <!--在swiper上面使用v-if=‘item.length’,确保图片获取完成之后再渲染swiper组件-->
             <swiper :options="swiperOption" ref="swiperOption" v-if='banners.length'>
               <swiper-slide v-for="banner in banners" :key='banner.title'>
-                <img :src="banner.path" height="100%" width="100%"/>
-                <div class="banner-dec">
-                  {{banner.title}}
-                </div>
+                <router-link :to="'newsDetails/'+banner.id">
+                  <img :src="banner.path" height="100%" width="100%"/>
+                  <div class="banner-dec">
+                    {{banner.title}}
+                  </div>
+                </router-link>
               </swiper-slide>
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
@@ -82,15 +91,17 @@
             </div>
             <div class="technicalExchangeDiv">
               <div class="technicalExchangeRow" v-for="technicalExchange in technicalExchanges" :key="technicalExchange.id">
-                <div class="technicalExchangeTitle">
-                  <div></div>
-                  <a href="javascript:downFile('upload/2018/09-13/09-48-5309591663577314.pdf','449703')">
-                    {{technicalExchange.title | lengthInterception(80)}}
-                  </a>
-                </div>
-                <div class="technicalExchangeDate">
-                  {{technicalExchange.publishDate | formatDate('yyyy-MM-dd')}}
-                </div>
+                <router-link :to="'technicalExchangeDetails/'+technicalExchange.id">
+                  <div class="technicalExchangeTitle">
+                    <div></div>
+                    <a href="javascript:downFile('upload/2018/09-13/09-48-5309591663577314.pdf','449703')">
+                      {{technicalExchange.title | lengthInterception(80)}}
+                    </a>
+                  </div>
+                  <div class="technicalExchangeDate">
+                    {{technicalExchange.publishDate | formatDate('yyyy-MM-dd')}}
+                  </div>
+                </router-link>
               </div>
             </div>
           </div>
@@ -146,7 +157,7 @@ export default {
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]
-          this.banners.push({title: obj.title, path: this.$store.state.cmsStaticDir + obj.cover})
+          this.banners.push({id: obj.id, title: obj.title, path: this.$store.state.cmsStaticDir + obj.cover})
         }
       })
       .catch(function (error) {
@@ -171,7 +182,7 @@ export default {
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]
-          this.technicalExchanges.push({title: obj.title, publishDate: obj.publishDate})
+          this.technicalExchanges.push({id: obj.id, title: obj.title, publishDate: obj.publishDate})
         }
       })
       .catch(function (error) {
@@ -285,13 +296,39 @@ export default {
     -moz-transition:opacity 0.75s ease-out;
     -ms-transition:opacity 0.75s ease-out;
     -o-transition:opacity 0.75s ease-out;
+    width: 300px;
   }
+
+  .info .figcaptionRight{
+    width: 475px;
+    padding:20px;
+    position:absolute;
+    top:20%;
+    right:0px;
+    background-color:rgba(155,155,155,0.7);
+    color:#FFF;
+    opacity:0;
+    -webkit-transition:ease-out opacity 0.75s;
+    -moz-transition:opacity 0.75s ease-out;
+    -ms-transition:opacity 0.75s ease-out;
+    -o-transition:opacity 0.75s ease-out;
+  }
+
+  .info figure:hover .figcaptionRight{
+    opacity:1;
+  }
+
+  .info .figcaptionRight strong{
+    display:block;
+    line-height:40px;
+  }
+
   .info figure:hover figcaption{
     opacity:1;
   }
-  /*.info figure figcaption{
+  .info figure figcaption{
     opacity:1;
-  }*/
+  }
   .info figcaption strong{
     display:block;
     line-height:40px;
@@ -506,4 +543,5 @@ export default {
     color: #999;
   }
   /*技术交流&生活展览 end*/
+
 </style>

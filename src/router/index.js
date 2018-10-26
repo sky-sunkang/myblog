@@ -6,7 +6,7 @@ const LifeExhibition = () => import(/* webpackChunkName: "group-LifeExhibition" 
 const TechnicalExchange = () => import(/* webpackChunkName: "group-TechnicalExchange" */ '../components/TechnicalExchange')
 const SystemMonitoring = () => import(/* webpackChunkName: "group-SystemMonitoring" */ '../components/SystemMonitoring')
 const NewsDetails = () => import(/* webpackChunkName: "group-NewsDetails" */ '../components/NewsDetails')
-
+const TechnicalExchangeDetails = () => import(/* webpackChunkName: "group-TechnicalExchangeDetails" */ '../components/TechnicalExchangeDetails')
 // eslint-disable-next-line no-undef
 export default new VueRouter({
   routes: [
@@ -43,6 +43,11 @@ export default new VueRouter({
       path: '/newsDetails/:id',
       name: 'newsDetails',
       component: NewsDetails
+    },
+    {
+      path: '/technicalExchangeDetails/:id',
+      name: 'technicalExchangeDetails',
+      component: TechnicalExchangeDetails
     }
   ]
 })
