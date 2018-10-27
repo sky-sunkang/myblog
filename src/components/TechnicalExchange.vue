@@ -157,7 +157,7 @@ export default {
   .exchange .news-title-nav img {
     display: inline-block;
     vertical-align: middle;
-    margin-right: 10px;
+    margin-right: 5px;
     margin-bottom: 2px;
   }
   /*列表部分 begin*/

@@ -3,7 +3,7 @@
     <div class="newsDetails-div" >
       <div class="news-title-nav">
         <img src="/static/images/home.png" width="16" height="16">
-        <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">行业动态</span></span>
+        <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">技术交流</span></span>
       </div>
       <Divider />
       <div>
@@ -18,9 +18,9 @@
           浏览量：<span id="newsDetails-num">{{news.clicks}}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
           【字体：
-            <a href="javascript:changeFont('16px')">大</a>
-            <a href="javascript:changeFont('14px')">中</a>
-            <a href="javascript:changeFont('12px')">小</a>】
+          <a href="javascript:changeFont('16px')">大</a>
+          <a href="javascript:changeFont('14px')">中</a>
+          <a href="javascript:changeFont('12px')">小</a>】
         </div>
         <div class="news-content"  >
           <p id="newsDetails-text" v-html="news.text">
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'news-details',
+  name: 'technical-exchange-details',
   data () {
     return {
       news: {
@@ -49,7 +49,6 @@ export default {
     // 初始化新闻
     this.$axios.get('/intf/content.json?id=' + this.$route.params.id)
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
-        console.log(response.data)
         this.news.text = this.htmlDecode(response.data.text)
         this.news.title = this.htmlDecode(response.data.title)
         this.news.publishDate = new Date(response.data.publishDate).getTime()
@@ -111,6 +110,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
   .newsDetails-div{
     width: 1200px;
