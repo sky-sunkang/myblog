@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-Header active="index"/>
     <div class="info">
       <!--<div class="card">
         <h1>我的名片</h1>
@@ -34,7 +35,13 @@
     <div class="context">
       <div class="industry">
         <div class="industry-in">
-          <div class="industryNews">
+          <div class="industryNews" id="industryNews">
+            <Col class="demo-spin-col" span="8">
+            <Spin fix>
+              <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+            </Col>
             <!--在swiper上面使用v-if=‘item.length’,确保图片获取完成之后再渲染swiper组件-->
             <swiper :options="swiperOption" ref="swiperOption" v-if='banners.length'>
               <swiper-slide v-for="banner in banners" :key='banner.title'>
@@ -48,8 +55,14 @@
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
           </div>
-          <div class="industryDynamics">
-            <div class="industryDynamicsTitle">
+          <div class="industryDynamics" id="industryDynamics">
+            <Col class="demo-spin-col" span="8">
+            <Spin fix>
+              <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+            </Col>
+            <div class="industryDynamicsTitle" v-if="dynamics.length > 0">
               <img src="../../static/images/diamond.png" width="23" height="16"/>
               <span>行业动态</span>
               <a href="/#/industryDynamics">查看更多>></a>
@@ -83,11 +96,17 @@
       <div class="regulationsExhibition">
         <div  class="regulationsExhibition-in">
           <!--技术交流-->
-          <div style="width: 515px; display: inline-block;height: 300px;padding: 20px 0">
-            <div class="industryDynamicsTitle">
+          <div id="technicalExchange" style="width: 515px; display: inline-block;height: 300px;padding: 20px 0">
+            <Col class="demo-spin-col" span="8">
+            <Spin fix>
+              <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+            </Col>
+            <div class="industryDynamicsTitle" v-if="technicalExchanges.length > 0">
               <img src="../../static/images/diamond.png" width="23" height="16"/>
               <span>技术交流</span>
-              <a href="#">查看更多>></a>
+              <a href="/#/technicalExchange">查看更多>></a>
             </div>
             <div class="technicalExchangeDiv">
               <div class="technicalExchangeRow" v-for="technicalExchange in technicalExchanges" :key="technicalExchange.id">
@@ -106,11 +125,17 @@
             </div>
           </div>
           <!--生活展览-->
-          <div style="width: 440px;display: inline-block;height: 300px;margin-left: 40px;padding: 20px 0">
+          <div id="lifeExhibition" style="width: 440px;display: inline-block;height: 300px;margin-left: 40px;padding: 20px 0">
+            <!--<Col class="demo-spin-col" span="8">
+            <Spin fix>
+              <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+              <div>Loading</div>
+            </Spin>
+            </Col>-->
             <div class="industryDynamicsTitle">
               <img src="../../static/images/diamond.png" width="23" height="16"/>
               <span>生活展览</span>
-              <a href="#">查看更多>></a>
+              <a href="/#/lifeExhibition">查看更多>></a>
             </div>
             <div style="margin-top: 20px" class="industryDynamicsContent">
               <img style="float: right;border:1px solid #F2F2F2" src="../../static/images/logo.png" width="440" height="250"/>
@@ -120,13 +145,15 @@
       </div>
     </div>
     <!--内容 end-->
+    <v-Foot/>
   </div>
 </template>
 <script>
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 // import {formatDate} from '../common/date.js'
 // import {lengthInterception} from '../common/str.js'
-
+import Header from '../components/Header'
+import Foot from '../components/Foot'
 export default {
   data () {
     return {
@@ -153,7 +180,7 @@ export default {
     // 初始化首页轮播图
     this.$axios.get('/api/directive/contentList?showParameters=false&categoryId=' + this.$store.state.dynamicNewsId + '&pageIndex=1&count=3')
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
-        console.log(response)
+        this.$myLoding.stop('#industryNews')
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]
@@ -167,6 +194,7 @@ export default {
     // 行业资讯
     this.$axios.get('/api/directive/contentList?showParameters=false&categoryId=' + this.$store.state.dynamicId + '&pageIndex=1&count=4')
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+        this.$myLoding.stop('#industryDynamics')
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]
@@ -179,6 +207,7 @@ export default {
     //  技术交流
     this.$axios.get('/api/directive/contentList?showParameters=false&categoryId=' + this.$store.state.technicalExchangeId + '&pageIndex=1&count=3')
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+        this.$myLoding.stop('#technicalExchange')
         var list = response.data.page.list
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]
@@ -193,7 +222,9 @@ export default {
     'swiper':
     swiper,
     'swiperSlide':
-    swiperSlide
+    swiperSlide,
+    'v-Header': Header,
+    'v-Foot': Foot
   },
   methods: {
     start () {

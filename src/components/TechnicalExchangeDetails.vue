@@ -1,14 +1,21 @@
 <template>
   <div>
+    <v-Header active="technicalExchange"/>
     <div class="newsDetails-div" >
       <div class="news-title-nav">
         <img src="/static/images/home.png" width="16" height="16">
         <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">技术交流</span></span>
       </div>
       <Divider />
-      <div>
+      <div id="technicalDetContent">
+        <Col class="demo-spin-col" span="8">
+        <Spin fix>
+          <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+          <div>Loading</div>
+        </Spin>
+        </Col>
         <div class="news-title" id="newsDetails-title" v-html="news.title"></div>
-        <div class="news-unit">
+        <div class="news-unit" v-if="news.length > 0">
           发布时间：<span id="newsDetails-date">
           {{news.publishDate | formatDate('yyyy-MM-dd') }}
         </span>
@@ -28,10 +35,13 @@
         </div>
       </div>
     </div>
+    <v-Foot/>
   </div>
 </template>
 
 <script>
+import Header from '../components/Header'
+import Foot from '../components/Foot'
 export default {
   name: 'technical-exchange-details',
   data () {
@@ -45,10 +55,16 @@ export default {
       }
     }
   },
+  components: {
+    'v-Header': Header,
+    'v-Foot': Foot
+  },
   created () {
+    this.$myLoding.start('#technicalDetContent')
     // 初始化新闻
     this.$axios.get('/intf/content.json?id=' + this.$route.params.id)
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+        this.$myLoding.stop('#technicalDetContent')
         this.news.text = this.htmlDecode(response.data.text)
         this.news.title = this.htmlDecode(response.data.title)
         this.news.publishDate = new Date(response.data.publishDate).getTime()

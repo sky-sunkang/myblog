@@ -1,46 +1,59 @@
 <template>
-  <div class="industry" style="background-color: #F7F5F4;">
-    <div class="industry-in" style="background-color: white">
-      <div class="news-title-nav">
-        <img src="/static/images/home.png" width="16" height="16">
-        <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">行业动态</span></span>
-      </div>
-      <Divider />
-      <Timeline>
-        <TimelineItem  color="green" v-for="industry in industrys" :key='industry.index'>
-          <p class="time">{{industry.publishDate | formatDate('yyyy年MM月dd日') }}</p>
-          <img class="arrow" src="../../static/images/leftThree.png">
-          <router-link :to="'newsDetails/'+industry.id">
-            <div class="industryItem" >
-              <div>
-                <p class="industryTitle" >{{industry.title}}</p>
-                <div class="industryDesc" >
-                  <img class="industryCorve" v-lazy="industry.cover" width="200" height="100">
-                  <div class="industryDecText">
-                    {{industry.description}}
+  <div>
+    <v-Header active="industryDynamics"/>
+    <div class="industry" style="background-color: #F7F5F4;">
+      <div class="industry-in" style="background-color: white">
+        <div class="news-title-nav">
+          <img src="/static/images/home.png" width="16" height="16">
+          <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">行业动态</span></span>
+        </div>
+        <Divider />
+        <div id="industryContent">
+          <Col class="demo-spin-col" span="8">
+          <Spin fix>
+            <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+            <div>Loading</div>
+          </Spin>
+          </Col>
+          <Timeline>
+            <TimelineItem  color="green" v-for="industry in industrys" :key='industry.index'>
+              <p class="time">{{industry.publishDate | formatDate('yyyy年MM月dd日') }}</p>
+              <img class="arrow" src="../../static/images/leftThree.png">
+              <router-link :to="'newsDetails/'+industry.id">
+                <div class="industryItem" >
+                  <div>
+                    <p class="industryTitle" >{{industry.title}}</p>
+                    <div class="industryDesc" >
+                      <img class="industryCorve" v-lazy="industry.cover" width="200" height="100">
+                      <div class="industryDecText">
+                        {{industry.description}}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="industryBelow">
+                <div class="industryBelow">
               <span class="industryAuthor">
                 <Icon type="md-person"/><span>{{industry.author}}</span>
               </span>
-              <span class="industryClicks">
+                  <span class="industryClicks">
                 阅读量：
                 <span>{{industry.clicks}}</span>
               </span>
-            </div>
-          </router-link>
-        </TimelineItem>
-        <TimelineItem color="blue"><span class="loadIndustr" v-on:click="loadIndustr()">查看更多</span></TimelineItem>
-      </Timeline>
+                </div>
+              </router-link>
+            </TimelineItem>
+            <TimelineItem v-if="industrys.length > 0" color="blue"><span class="loadIndustr" v-on:click="loadIndustr()">查看更多</span></TimelineItem>
+          </Timeline>
+        </div>
+      </div>
     </div>
+    <v-Foot/>
   </div>
 </template>
 
 <script>
-import Header from './Header'
+import Header from '../components/Header'
+import Foot from '../components/Foot'
 export default {
   name: 'industry-dynamics',
   data () {
@@ -50,12 +63,15 @@ export default {
     }
   },
   components: {
-    'v-Header': Header
+    'v-Header': Header,
+    'v-Foot': Foot
   },
   created () {
+    this.$myLoding.start('#industryContent')
     // 行业资讯
     this.$axios.get('/api/directive/contentList?showParameters=false&categoryId=' + this.$store.state.dynamicId +
       '&pageIndex=' + this.index + '&count=4').then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+      this.$myLoding.stop('#industryContent')
       var list = response.data.page.list
       this.index = this.index + 1
       for (var i = 0; i < list.length; i++) {
@@ -68,8 +84,10 @@ export default {
   },
   methods: {
     loadIndustr: function () {
+      this.$Loading.start()
       this.$axios.get('/api/directive/contentList?showParameters=false&categoryId=' + this.$store.state.dynamicId +
         '&pageIndex=' + this.index + '&count=4').then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+        this.$Loading.finish()
         if (response.data.page.pageIndex !== this.index) {
           this.$Message.error('英雄，已经加载到底啦！')
           return
@@ -80,7 +98,6 @@ export default {
           this.index = this.index + 1
           this.industrys.push({id: obj.id, title: obj.title, description: obj.description, publishDate: obj.publishDate, cover: this.$store.state.cmsStaticDir + obj.cover, author: obj.author, clicks: obj.clicks})
         }
-        // this.$Message.success('加载成功！')
       }).catch(function (error) {
         this.$Message.error('加载失败：' + error)
       })

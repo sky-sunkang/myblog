@@ -1,37 +1,37 @@
 <template>
   <div>
-    <v-Header active="industryDynamics"/>
-    <div class="newsDetails-div" >
-      <div class="news-title-nav">
+    <v-Header active="lifeExhibition"/>
+    <div class="lifeExhibitionDetails-div" >
+      <div class="lifeExhibition-title-nav">
         <img src="/static/images/home.png" width="16" height="16">
-        <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">新闻内容</span></span>
+        <span>首页-<span style="color: #CC0202;" id="lifeExhibitionDetailsCrumbs">生活展览</span></span>
       </div>
       <Divider />
       <div>
-        <div id="newsDetailsContent">
+        <div id="lifeExhibitionDetailsContent">
           <Col class="demo-spin-col" span="8">
           <Spin fix>
             <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
             <div>Loading</div>
           </Spin>
           </Col>
-          <div class="news-title" id="newsDetails-title" v-html="news.title"></div>
-          <div class="news-unit" v-if="news.length > 0">
-            发布时间：<span id="newsDetails-date">
-          {{news.publishDate | formatDate('yyyy-MM-dd') }}
+          <div class="lifeExhibition-title" id="lifeExhibitionDetails-title" v-html="lifeExhibition.title"></div>
+          <div class="lifeExhibition-unit" v-if="lifeExhibition.length > 0">
+            发布时间：<span id="lifeExhibitionDetails-date">
+          {{lifeExhibition.publishDate | formatDate('yyyy-MM-dd') }}
         </span>a
             &nbsp;&nbsp;&nbsp;&nbsp;
-            来源：<span id="newsDetails-author">{{news.author}}</span>
+            来源：<span id="lifeExhibitionDetails-author">{{lifeExhibition.author}}</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            浏览量：<span id="newsDetails-num">{{news.clicks}}</span>
+            浏览量：<span id="lifeExhibitionDetails-num">{{lifeExhibition.clicks}}</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
             【字体：
             <a href="javascript:changeFont('16px')">大</a>
             <a href="javascript:changeFont('14px')">中</a>
             <a href="javascript:changeFont('12px')">小</a>】
           </div>
-          <div class="news-content"  >
-            <p id="newsDetails-text" v-html="news.text">
+          <div class="lifeExhibition-content"  >
+            <p id="lifeExhibitionDetails-text" v-html="lifeExhibition.text">
             </p>
           </div>
         </div>
@@ -45,10 +45,10 @@
 import Header from '../components/Header'
 import Foot from '../components/Foot'
 export default {
-  name: 'news-details',
+  name: 'lifeExhibition-details',
   data () {
     return {
-      news: {
+      lifeExhibition: {
         title: '',
         text: '',
         publishDate: '',
@@ -63,16 +63,16 @@ export default {
     'v-Foot': Foot
   },
   created () {
-    this.$myLoding.start('#newsDetailsContent')
+    this.$myLoding.start('#lifeExhibitionDetailsContent')
     // 初始化新闻
     this.$axios.get('/intf/content.json?id=' + this.$route.params.id)
       .then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
-        this.$myLoding.stop('#newsDetailsContent')
-        this.news.text = this.htmlDecode(response.data.text)
-        this.news.title = this.htmlDecode(response.data.title)
-        this.news.publishDate = new Date(response.data.publishDate).getTime()
-        this.news.author = response.data.author == null ? '' : response.data.author
-        this.news.clicks = response.data.clicks
+        this.$myLoding.stop('#lifeExhibitionDetailsContent')
+        this.lifeExhibition.text = this.htmlDecode(response.data.text)
+        this.lifeExhibition.title = this.htmlDecode(response.data.title)
+        this.lifeExhibition.publishDate = new Date(response.data.publishDate).getTime()
+        this.lifeExhibition.author = response.data.author == null ? '' : response.data.author
+        this.lifeExhibition.clicks = response.data.clicks
       })
       .catch(function (error) {
         console.log(error)
@@ -130,7 +130,7 @@ export default {
 }
 </script>
 <style >
-  .newsDetails-div{
+  .lifeExhibitionDetails-div{
     width: 1200px;
     min-height: 800px;
     margin: 20px auto 0px;
@@ -138,39 +138,39 @@ export default {
     padding: 30px;
     border-radius: 20px;
   }
-  .newsDetails-div .news-title-nav {
+  .lifeExhibitionDetails-div .lifeExhibition-title-nav {
     font-size: 13px;
     height: 40px;
     line-height: 40px;
     padding-left: 50px;
     padding-top: 10px;
   }
-  .newsDetails-div .news-title-nav img {
+  .lifeExhibitionDetails-div .lifeExhibition-title-nav img {
     display: inline-block;
     vertical-align: middle;
     margin-right: 5px;
     margin-bottom: 2px;
   }
 
-  .newsDetails-div .news-title {
+  .lifeExhibitionDetails-div .lifeExhibition-title {
     text-align: center;
     font-weight: bolder;
     margin-top: 38px;
     font-size: 24px;
     color: #333333;
   }
-  .newsDetails-div .news-unit {
+  .lifeExhibitionDetails-div .lifeExhibition-unit {
     font-size: 12px;
     text-align: center;
     margin-top: 30px;
     color: #999999;
   }
-  .news-content{
+  .lifeExhibition-content{
     font-size: 14px;
     min-height: 300px;
     padding: 40px 70px;
   }
-  #newsDetails-text img{
+  #lifeExhibitionDetails-text img{
     max-width: 800px !important;
     height: auto;
   }

@@ -1,56 +1,59 @@
 <template>
   <div>
+    <!--<transition-->
+      <!--appear-->
+      <!--name="slide-fade"-->
+    <!--&gt;-->
+      <div class="header" >
+        <div class="hander-top" >
+          <div class="wapper-in">
+            <div style="width: 500px;float: left;overflow-y: hidden;height: 24px;padding-left: 24px">
+              <!--<marquee direction="up" scrolldelay="100"></marquee>
+              <marquee direction="up" scrolldelay="100"></marquee>-->
+              <ul id="RunTopic">
+                <li>博客系统1.0上线啦！！！</li>
+                <li>博客系统部分功能正在逐渐开发的过程中！！！</li>
+              </ul>
+            </div>
+            <div style="float: right;width: 400px;text-align: right">
+              <!--孙康 -->欢迎您！<a href="/#/login" >[ 登录 ]</a>
+              <span class="separate">|</span>
+              【退出】
+            </div>
 
-    <div class="header">
-      <div class="hander-top">
-        <div class="wapper-in">
-          <div style="width: 500px;float: left;overflow-y: hidden;height: 24px;padding-left: 24px">
-            <!--<marquee direction="up" scrolldelay="100"></marquee>
-            <marquee direction="up" scrolldelay="100"></marquee>-->
-            <ul id="RunTopic">
-              <li>博客系统1.0上线啦！！！</li>
-              <li>博客系统部分功能正在逐渐开发的过程中！！！</li>
-            </ul>
-          </div>
-          <div style="float: right;width: 400px;text-align: right">
-            <!--孙康 -->欢迎您！
-            <span class="separate">|</span>
-            【退出】
-          </div>
-
-        </div>
-      </div>
-      <div class="hander-bottom">
-        <div class="wapper-in">
-          <img v-lazy="'../../static/images/logo.png'" height="60" width="200"/>
-          <div class="li-div">
-            <Menu mode="horizontal" :theme="theme1" @on-select="toMenu" :active-name="setActive"
-                  :default-active="onRoutes">
-              <MenuItem name="index">
-                <Icon type="ios-home"/>
-                首页
-              </MenuItem>
-              <MenuItem name="industryDynamics">
-                <Icon type="ios-globe"/>
-                行业动态
-              </MenuItem>
-              <MenuItem name="technicalExchange">
-                <Icon type="ios-bug"/>
-                技术交流
-              </MenuItem>
-              <MenuItem name="lifeExhibition">
-                <Icon type="md-film"/>
-                生活展览
-              </MenuItem>
-              <MenuItem name="systemMonitoring">
-                <Icon type="md-analytics" />
-                系统监控
-              </MenuItem>
-            </Menu>
           </div>
         </div>
+        <div class="hander-bottom">
+          <div class="wapper-in">
+            <img v-lazy="'../../static/images/logo.png'" height="60" width="200"/>
+            <div class="li-div">
+              <Menu mode="horizontal" :theme="theme1" @on-select="toMenu" :active-name="active">
+                <MenuItem name="index">
+                  <Icon type="ios-home"/>
+                  首页
+                </MenuItem>
+                <MenuItem name="industryDynamics">
+                  <Icon type="ios-globe"/>
+                  行业动态
+                </MenuItem>
+                <MenuItem name="technicalExchange">
+                  <Icon type="ios-bug"/>
+                  技术交流
+                </MenuItem>
+                <MenuItem name="lifeExhibition">
+                  <Icon type="md-film"/>
+                  生活展览
+                </MenuItem>
+                <MenuItem name="systemMonitoring">
+                  <Icon type="md-analytics" />
+                  系统监控
+                </MenuItem>
+              </Menu>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    <!--</transition>-->
     <div style="height: 85px"></div>
   </div>
 </template>
@@ -101,9 +104,9 @@ export default {
       theme1: 'light'
     }
   },
+  props: ['active'],
   methods: {
     toMenu (e) {
-      console.log(e)
       this.$router.push({name: e})
     }
   },
@@ -124,7 +127,7 @@ export default {
     left: 0;
     top: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
     border-bottom: 1px solid #eee;
   }
 
@@ -170,5 +173,25 @@ export default {
   .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu-active, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover {
     color: #BF4D3B;
     border-bottom: 2px solid #BF4D3B;
+  }
+  /* 可以设置不同的进入和离开动画 */
+  /* 设置持续时间和动画函数 */
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .10s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 </style>

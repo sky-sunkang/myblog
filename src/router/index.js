@@ -7,6 +7,10 @@ const TechnicalExchange = () => import(/* webpackChunkName: "group-TechnicalExch
 const SystemMonitoring = () => import(/* webpackChunkName: "group-SystemMonitoring" */ '../components/SystemMonitoring')
 const NewsDetails = () => import(/* webpackChunkName: "group-NewsDetails" */ '../components/NewsDetails')
 const TechnicalExchangeDetails = () => import(/* webpackChunkName: "group-TechnicalExchangeDetails" */ '../components/TechnicalExchangeDetails')
+const Login = () => import(/* webpackChunkName: "group-Login" */ '../components/login/login')
+const Register = () => import(/* webpackChunkName: "group-Login" */ '../components/login/register')
+const LifeExhibitionDetails = () => import(/* webpackChunkName: "group-LifeExhibitionDetails" */ '../components/LifeExhibitionDetails')
+
 // eslint-disable-next-line no-undef
 export default new VueRouter({
   routes: [
@@ -48,6 +52,21 @@ export default new VueRouter({
       path: '/technicalExchangeDetails/:id',
       name: 'technicalExchangeDetails',
       component: TechnicalExchangeDetails
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
+    },
+    {
+      path: '/lifeExhibitionDetails/:id',
+      name: 'lifeExhibitionDetails',
+      component: LifeExhibitionDetails
     }
   ]
 })

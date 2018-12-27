@@ -1,27 +1,40 @@
 <template>
-  <div class="monitor">
-    <div class="monitor-in">
-      <div class="news-title-nav">
-        <img src="/static/images/home.png" width="16" height="16">
-        <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">系统监控</span></span>
+  <div>
+    <v-Header active="systemMonitoring"/>
+    <div class="monitor">
+      <div class="monitor-in">
+        <div class="news-title-nav">
+          <img src="/static/images/home.png" width="16" height="16">
+          <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">系统监控</span></span>
+        </div>
+        <Divider />
+        <div id="systemContent">
+          <Col class="demo-spin-col" span="8">
+          <Spin fix>
+            <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+            <div>Loading</div>
+          </Spin>
+          </Col>
+          <div id="memery" style="width: 400px;height:250px;display: inline-block">
+          </div>
+          <div id="disk" style="width: 400px;height:250px;display: inline-block;margin-left: 150px">
+          </div>
+          <div id="cpu" style="width: 980px;height:250px;;margin-top: 30px">
+          </div>
+          <div id="net" style="width: 980px;height:250px;margin-top: 30px">
+          </div>
+        </div>
+        <!--<iframe src="http://sunkang.xyz:8888/server/monitorHtml" height="600" width="1200" frameborder="0" scrolling="auto"  ></iframe>-->
       </div>
-      <Divider />
-      <div id="memery" style="width: 400px;height:250px;display: inline-block">
-      </div>
-      <div id="disk" style="width: 400px;height:250px;display: inline-block;margin-left: 150px">
-      </div>
-      <div id="cpu" style="width: 980px;height:250px;;margin-top: 30px">
-      </div>
-      <div id="net" style="width: 980px;height:250px;margin-top: 30px">
-      </div>
-      <!--<iframe src="http://sunkang.xyz:8888/server/monitorHtml" height="600" width="1200" frameborder="0" scrolling="auto"  ></iframe>-->
     </div>
+    <v-Foot/>
   </div>
 </template>
 
 <script>
 /* eslint-disable no-undef */
-
+import Header from '../components/Header'
+import Foot from '../components/Foot'
 export default {
   name: 'system-monitoring',
   data: function () {
@@ -184,16 +197,22 @@ export default {
       }
     }
   },
+  components: {
+    'v-Header': Header,
+    'v-Foot': Foot
+  },
   mounted () {
     this.init()
     setInterval(() => {
       this.update()
-    }, 60 * 1000)
+    }, 10 * 60 * 1000)
   },
   methods: {
     init: function () {
+      this.$myLoding.start('#systemContent')
       // 初始化网络
       this.$axios.get('/server/monitor').then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+        this.$myLoding.stop('#systemContent')
         var list = response.data.reverse()
         for (var i = 0; i < list.length; i++) {
           var obj = list[i]

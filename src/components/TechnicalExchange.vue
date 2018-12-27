@@ -1,32 +1,41 @@
 <template>
-  <div class="exchange">
-    <div class="exchange-in">
-      <div class="news-title-nav">
-        <img src="/static/images/home.png" width="16" height="16">
-        <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">技术交流</span></span>
-      </div>
-      <Divider />
-      <Timeline>
-        <TimelineItem  color="green" v-for="exchange in exchanges" :key='exchange.index'>
-          <p class="time">{{exchange.publishDate | formatDate('yyyy年MM月dd日') }}</p>
-          <img class="arrow" src="../../static/images/leftThree.png">
-          <router-link :to="'technicalExchangeDetails/'+exchange.id">
-            <div class="exchangeItem" >
-              <div>
-                <p class="exchangeTitle" >{{exchange.title}}</p>
-                <div class="exchangeDesc" >
-                  <img class="exchangeCorve" v-lazy="exchange.cover" width="200" height="100">
-                  <div class="exchangeDecText">
-                    {{exchange.description}}
+  <div>
+    <v-Header active="technicalExchange"/>
+    <div class="exchange">
+      <div class="exchange-in">
+        <div class="news-title-nav">
+          <img src="/static/images/home.png" width="16" height="16">
+          <span>首页-<span style="color: #CC0202;" id="newsDetailsCrumbs">技术交流</span></span>
+        </div>
+        <Divider />
+        <div id="technicalContent">
+          <Col class="demo-spin-col" span="8">
+          <Spin fix>
+            <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+            <div>Loading</div>
+          </Spin>
+          </Col>
+         <Timeline>
+          <TimelineItem  color="green" v-for="exchange in exchanges" :key='exchange.index'>
+            <p class="time">{{exchange.publishDate | formatDate('yyyy年MM月dd日') }}</p>
+            <img class="arrow" src="../../static/images/leftThree.png">
+            <router-link :to="'technicalExchangeDetails/'+exchange.id">
+              <div class="exchangeItem" >
+                <div>
+                  <p class="exchangeTitle" >{{exchange.title}}</p>
+                  <div class="exchangeDesc" >
+                    <img class="exchangeCorve" v-lazy="exchange.cover" width="200" height="100">
+                    <div class="exchangeDecText">
+                      {{exchange.description}}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="exchangeBelow">
+              <div class="exchangeBelow">
               <span class="exchangeAuthor">
                 <Icon type="md-person"/><span>{{exchange.author}}</span>
               </span>
-              <span class="exchangeClicks">
+                <span class="exchangeClicks">
                 阅读量：
                 <span>{{exchange.clicks}}</span>
                 <span class="like" >
@@ -39,16 +48,21 @@
                 </span>
               </span>
 
-            </div>
-          </router-link>
-        </TimelineItem>
-        <TimelineItem color="blue"><span class="loadIndustr" v-on:click="loadIndustr()">查看更多</span></TimelineItem>
-      </Timeline>
+              </div>
+            </router-link>
+          </TimelineItem>
+          <TimelineItem v-if="exchanges.length > 0" color="blue"><span class="loadIndustr" v-on:click="loadIndustr()">查看更多</span></TimelineItem>
+        </Timeline>
+        </div>
+      </div>
     </div>
+    <v-Foot/>
   </div>
 </template>
 
 <script>
+import Header from '../components/Header'
+import Foot from '../components/Foot'
 export default {
   name: 'technical-exchange',
   data () {
@@ -57,10 +71,16 @@ export default {
       index: 1
     }
   },
+  components: {
+    'v-Header': Header,
+    'v-Foot': Foot
+  },
   created () {
+    this.$myLoding.start('#technicalContent')
     // 行业资讯
     this.$axios.get('/api/directive/contentList?showParameters=false&categoryId=' + this.$store.state.technicalExchangeId +
       '&pageIndex=' + this.index + '&count=4').then((response) => { // 或者我们可以使用 ES6 的 箭头函数arrow function，箭头方法可以和父方法共享变量.否则不能在钩子函数中调用this.banners
+      this.$myLoding.stop('#technicalContent')
       var list = response.data.page.list
       this.index = this.index + 1
       for (var i = 0; i < list.length; i++) {
